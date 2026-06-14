@@ -1,0 +1,321 @@
+:root {
+    --neon-blue: #00e5ff;
+    --text-main: #f5f5fa;
+    --font-english: 'Cinzel', serif;
+    --font-japanese: 'Shippori Mincho', serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-japanese);
+    color: var(--text-main);
+    background-color: #060310;
+    overflow-x: hidden;
+    line-height: 1.8;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* 画像を完全再現する固定背景 */
+#fixed-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('log.png'); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -3;
+    transform: translateZ(0); 
+}
+
+/* 読みやすさを確保するためのダークフィルター */
+#bg-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(10, 5, 21, 0.3); 
+    z-index: -2;
+}
+
+/* 外枠フレーム */
+.screen-frame {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    right: 15px;
+    bottom: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    pointer-events: none;
+    z-index: 999;
+}
+
+/* ナビゲーション */
+nav {
+    position: fixed;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 60px);
+    padding: 20px 0;
+    background: rgba(10, 5, 21, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 100;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+nav ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    gap: 40px;
+}
+
+nav a {
+    font-family: var(--font-english);
+    color: var(--text-main);
+    text-decoration: none;
+    font-size: 0.9rem;
+    letter-spacing: 3px;
+    transition: 0.3s;
+    opacity: 0.8;
+}
+
+nav a:hover {
+    opacity: 1;
+    color: var(--neon-blue);
+    text-shadow: 0 0 8px var(--neon-blue);
+}
+
+/* セクション共通 */
+.section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 100px 40px;
+    position: relative;
+}
+
+.container {
+    width: 100%;
+    max-width: 1000px; /* コンテンツが広がりすぎないよう制限 */
+    margin: 0 auto;
+}
+
+/* トップページのアニメーションと装飾 */
+.top-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: fadeInIntro 1.5s ease-out forwards;
+}
+
+.decor-line {
+    width: 60px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.4);
+    margin: 20px 0;
+}
+
+.top-tagline {
+    font-family: var(--font-english);
+    font-size: 0.9rem;
+    letter-spacing: 6px;
+    color: #e0b0ff;
+    text-shadow: 0 0 10px rgba(224, 176, 255, 0.6);
+    margin-bottom: 5px;
+}
+
+.main-title {
+    font-family: var(--font-english);
+    font-size: 4.5rem;
+    font-weight: 700;
+    letter-spacing: 12px;
+    color: #ffffff;
+    text-shadow: 0 5px 20px rgba(0, 0, 0, 0.8);
+    line-height: 1.2;
+    text-align: center;
+}
+
+.top-subtitle {
+    font-size: 1.1rem;
+    letter-spacing: 4px;
+    color: rgba(255, 255, 255, 0.9);
+    margin-top: 10px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+}
+
+@keyframes fadeInIntro {
+    0% { opacity: 0; transform: translateY(30px); filter: blur(3px); }
+    100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+/* コンテンツタイトル */
+.section-title {
+    font-family: var(--font-english);
+    font-size: 2.8rem;
+    letter-spacing: 4px;
+    margin-bottom: 40px;
+    color: #fff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    display: inline-block;
+    padding-bottom: 10px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* すりガラス風カード */
+.glass-card {
+    background: rgba(15, 5, 30, 0.5);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px; 
+    padding: 40px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    width: 100%;
+}
+
+/* タイムライン */
+.timeline {
+    list-style: none;
+    text-align: left;
+}
+
+.timeline li {
+    margin-bottom: 25px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    gap: 30px;
+}
+
+.timeline .time {
+    font-family: var(--font-english);
+    color: #e0b0ff;
+    font-weight: bold;
+    font-size: 1.3rem;
+    letter-spacing: 1px;
+    min-width: 70px; /* 時間の幅を固定して綺麗に揃える */
+}
+
+/* 出演者グリッド */
+.grid-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    width: 100%;
+}
+
+.cast-card h3 {
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+    letter-spacing: 1px;
+    color: #e0b0ff;
+}
+
+.notice-box ul {
+    text-align: left;
+    padding-left: 20px;
+}
+
+.notice-box li {
+    margin-bottom: 20px;
+}
+
+/* スクロール連動設定 */
+.scroll-anim {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+    will-change: opacity, transform;
+}
+
+.scroll-anim.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* 📱 🌟 スマートフォン・タブレット用 レスポンシブ対応設定 🌟 */
+@media (max-width: 768px) {
+    .screen-frame {
+        top: 8px;
+        left: 8px;
+        right: 8px;
+        bottom: 8px;
+    }
+
+    nav {
+        top: 8px;
+        width: calc(100% - 32px);
+        padding: 12px 0;
+    }
+
+    nav ul {
+        gap: 15px; /* メニューの間隔を狭めて1行に収める */
+    }
+
+    nav a {
+        font-size: 0.75rem;
+        letter-spacing: 1px;
+    }
+
+    .section {
+        padding: 80px 20px 40px 20px; /* 左右の余白を狭めて横幅を確保 */
+    }
+
+    .main-title {
+        font-size: 2.2rem; /* スマホではタイトルを縮小してはみ出し防止 */
+        letter-spacing: 4px;
+    }
+
+    .top-tagline {
+        font-size: 0.75rem;
+        letter-spacing: 3px;
+    }
+
+    .top-subtitle {
+        font-size: 0.9rem;
+        letter-spacing: 1px;
+        text-align: center;
+        padding: 0 10px;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+        margin-bottom: 25px;
+    }
+
+    .glass-card {
+        padding: 25px 20px; /* カード内の余白を縮小 */
+    }
+
+    .timeline li {
+        flex-direction: column; /* スマホでは時間と内容を縦並びにして横幅を確保 */
+        gap: 6px;
+        margin-bottom: 18px;
+        padding-bottom: 18px;
+    }
+
+    .timeline .time {
+        font-size: 1.1rem;
+    }
+
+    .grid-layout {
+        grid-template-columns: 1fr; /* 出演者はスマホだと1列にすっきり並べる */
+        gap: 20px;
+    }
+}
