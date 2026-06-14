@@ -5,22 +5,26 @@
     --font-japanese: 'Shippori Mincho', serif;
 }
 
+/* 🌟 はみ出しを完全に防ぐためのリセット強化 */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    word-break: break-word; /* 長い単語でレイアウトが崩れるのを防ぐ */
+}
+
+html, body {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden; /* 横スクロール（横揺れ）を強制的に禁止 */
+    scroll-behavior: smooth;
 }
 
 body {
     font-family: var(--font-japanese);
     color: var(--text-main);
     background-color: #060310;
-    overflow-x: hidden;
     line-height: 1.8;
-}
-
-html {
-    scroll-behavior: smooth;
 }
 
 /* 画像を完全再現する固定背景 */
@@ -38,7 +42,7 @@ html {
     transform: translateZ(0); 
 }
 
-/* 読みやすさを確保するためのダークフィルター */
+/* ダークフィルター */
 #bg-overlay {
     position: fixed;
     top: 0;
@@ -68,6 +72,7 @@ nav {
     left: 50%;
     transform: translateX(-50%);
     width: calc(100% - 60px);
+    max-width: 1000px; /* PC画面で広がりすぎないように */
     padding: 20px 0;
     background: rgba(10, 5, 21, 0.4);
     backdrop-filter: blur(8px);
@@ -79,8 +84,9 @@ nav {
 nav ul {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap; /* 画面が狭いときは自動で折り返す */
     list-style: none;
-    gap: 40px;
+    gap: 15px 40px;
 }
 
 nav a {
@@ -88,7 +94,7 @@ nav a {
     color: var(--text-main);
     text-decoration: none;
     font-size: 0.9rem;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
     transition: 0.3s;
     opacity: 0.8;
 }
@@ -105,13 +111,13 @@ nav a:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 100px 40px;
+    padding: 100px 5vw; /* 左右の余白をvw（画面幅に対する割合）に変更してはみ出し防止 */
     position: relative;
 }
 
 .container {
     width: 100%;
-    max-width: 1000px; /* コンテンツが広がりすぎないよう制限 */
+    max-width: 1000px;
     margin: 0 auto;
 }
 
@@ -120,6 +126,7 @@ nav a:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
     animation: fadeInIntro 1.5s ease-out forwards;
 }
 
@@ -130,10 +137,11 @@ nav a:hover {
     margin: 20px 0;
 }
 
+/* 🌟 文字サイズを画面幅に合わせてシームレスに可変させる（clamp関数の使用） */
 .top-tagline {
     font-family: var(--font-english);
-    font-size: 0.9rem;
-    letter-spacing: 6px;
+    font-size: clamp(0.65rem, 2.5vw, 0.9rem);
+    letter-spacing: clamp(3px, 1.5vw, 6px);
     color: #e0b0ff;
     text-shadow: 0 0 10px rgba(224, 176, 255, 0.6);
     margin-bottom: 5px;
@@ -141,18 +149,17 @@ nav a:hover {
 
 .main-title {
     font-family: var(--font-english);
-    font-size: 4.5rem;
+    font-size: clamp(2.5rem, 10vw, 4.5rem);
     font-weight: 700;
-    letter-spacing: 12px;
+    letter-spacing: clamp(5px, 3vw, 12px);
     color: #ffffff;
     text-shadow: 0 5px 20px rgba(0, 0, 0, 0.8);
     line-height: 1.2;
-    text-align: center;
 }
 
 .top-subtitle {
-    font-size: 1.1rem;
-    letter-spacing: 4px;
+    font-size: clamp(0.9rem, 3.5vw, 1.1rem);
+    letter-spacing: clamp(1px, 1vw, 4px);
     color: rgba(255, 255, 255, 0.9);
     margin-top: 10px;
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
@@ -166,9 +173,9 @@ nav a:hover {
 /* コンテンツタイトル */
 .section-title {
     font-family: var(--font-english);
-    font-size: 2.8rem;
-    letter-spacing: 4px;
-    margin-bottom: 40px;
+    font-size: clamp(1.8rem, 6vw, 2.8rem);
+    letter-spacing: clamp(2px, 1.5vw, 4px);
+    margin-bottom: clamp(25px, 5vw, 40px);
     color: #fff;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     display: inline-block;
@@ -183,7 +190,7 @@ nav a:hover {
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 6px; 
-    padding: 40px;
+    padding: clamp(20px, 5vw, 40px); /* 画面サイズに合わせて余白を自動調整 */
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
     width: 100%;
 }
@@ -199,7 +206,8 @@ nav a:hover {
     padding-bottom: 25px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
-    gap: 30px;
+    flex-wrap: wrap; /* はみ出し防止の折り返し */
+    gap: 10px 30px;
 }
 
 .timeline .time {
@@ -208,22 +216,31 @@ nav a:hover {
     font-weight: bold;
     font-size: 1.3rem;
     letter-spacing: 1px;
-    min-width: 70px; /* 時間の幅を固定して綺麗に揃える */
+    min-width: 70px;
+}
+
+.timeline .event {
+    flex: 1; /* 残りのスペースを埋める */
+    min-width: 200px;
 }
 
 /* 出演者グリッド */
 .grid-layout {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* スマホでも綺麗に並ぶよう最小幅を調整 */
+    gap: clamp(15px, 4vw, 30px);
     width: 100%;
 }
 
 .cast-card h3 {
     margin-bottom: 10px;
-    font-size: 1.3rem;
+    font-size: clamp(1.1rem, 4vw, 1.3rem);
     letter-spacing: 1px;
     color: #e0b0ff;
+}
+
+.cast-card p {
+    font-size: clamp(0.9rem, 3.5vw, 1rem);
 }
 
 .notice-box ul {
@@ -232,7 +249,8 @@ nav a:hover {
 }
 
 .notice-box li {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+    font-size: clamp(0.9rem, 3.5vw, 1rem);
 }
 
 /* スクロール連動設定 */
@@ -249,7 +267,7 @@ nav a:hover {
 }
 
 
-/* 📱 🌟 スマートフォン・タブレット用 レスポンシブ対応設定 🌟 */
+/* 📱 スマートフォン・タブレット用の微調整 */
 @media (max-width: 768px) {
     .screen-frame {
         top: 8px;
@@ -260,12 +278,12 @@ nav a:hover {
 
     nav {
         top: 8px;
-        width: calc(100% - 32px);
-        padding: 12px 0;
+        width: calc(100% - 16px);
+        padding: 10px 5px;
     }
 
     nav ul {
-        gap: 15px; /* メニューの間隔を狭めて1行に収める */
+        gap: 8px 15px; /* メニューの間隔を狭める */
     }
 
     nav a {
@@ -274,48 +292,17 @@ nav a:hover {
     }
 
     .section {
-        padding: 80px 20px 40px 20px; /* 左右の余白を狭めて横幅を確保 */
-    }
-
-    .main-title {
-        font-size: 2.2rem; /* スマホではタイトルを縮小してはみ出し防止 */
-        letter-spacing: 4px;
-    }
-
-    .top-tagline {
-        font-size: 0.75rem;
-        letter-spacing: 3px;
-    }
-
-    .top-subtitle {
-        font-size: 0.9rem;
-        letter-spacing: 1px;
-        text-align: center;
-        padding: 0 10px;
-    }
-
-    .section-title {
-        font-size: 1.8rem;
-        margin-bottom: 25px;
-    }
-
-    .glass-card {
-        padding: 25px 20px; /* カード内の余白を縮小 */
+        padding: 100px 20px 40px 20px; /* スマホ時のセクション余白を固定 */
     }
 
     .timeline li {
-        flex-direction: column; /* スマホでは時間と内容を縦並びにして横幅を確保 */
-        gap: 6px;
-        margin-bottom: 18px;
-        padding-bottom: 18px;
+        flex-direction: column; /* スマホでは時間と内容を縦に並べる */
+        gap: 4px;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
     }
 
-    .timeline .time {
-        font-size: 1.1rem;
-    }
-
-    .grid-layout {
-        grid-template-columns: 1fr; /* 出演者はスマホだと1列にすっきり並べる */
-        gap: 20px;
+    .timeline .event {
+        min-width: 100%; /* 横幅いっぱいにする */
     }
 }
